@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+  PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+  "https://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.project.demo.mapper.CustomerMapper">
+<select id="loginCheck" parameterType="com.project.demo.domain.customer" resultType="int">
+  SELECT COUNT(*) FROM customer WHERE id=#{id} AND pw=#{pw}
+</select>
+<insert id="newCustomer" parameterType="com.project.demo.domain.customer">
+insert into customer values(#{id},#{pw},#{nick},#{address});
+</insert>
+<select id="idByCustomer" parameterType="String" resultType="com.project.demo.domain.customer">
+	select * from customer where id=#{id}
+</select>
+<delete id="deleteCustomer" parameterType="String">
+	delete from customer where id=#{id}
+</delete>
+<update id="updateCustomer" parameterType="com.project.demo.domain.customer">
+	update customer set nick=#{nick},address=#{address} where id=#{id}
+</update>
+</mapper>

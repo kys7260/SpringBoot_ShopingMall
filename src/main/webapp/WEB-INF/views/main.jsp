@@ -1,3 +1,5 @@
+<%@page import="java.util.List"%>
+<%@page import="com.project.demo.domain.product"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
 <!DOCTYPE html>
 <html>
@@ -50,12 +52,15 @@
             background-color: #f2f2f2;
         }
     </style>
+    
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
 </head>
 <body>
 
 <%    
 	HttpSession session1 = request.getSession();
     String loginId = (String)session1.getAttribute("loginId");
+    List<product> productList = (List<product>) request.getAttribute("productList");
 %>
 
     <header>
@@ -72,29 +77,56 @@
     </header>
     
     <main>
-        <table>
+        <table id="productTable">
             <thead>
                 <tr>
+                	<th>이미지</th>
                     <th>상품명</th>
                     <th>가격</th>
                 </tr>
             </thead>
             <tbody>
-                <tr>
-                    <td>상품1</td>
-                    <td>1000원</td>
-                </tr>
-                <tr>
-                    <td>상품2</td>
-                    <td>20000원</td>
-                </tr>
             </tbody>
         </table>
     </main>
     
     
-    <script>
-  			function logout() {
+    <script type="text/javascript">
+    $(document).ready(function() {
+        // 페이지가 로드된 후 실행될 코드
+        loadList(); // 함수 호출
+    })
+
+function loadList() {
+    $.ajax({
+        url: "showAllProduct", // 요청 경로
+        type: "get", // 요청 방식 (GET or POST)
+        dataType: "json", // 서버 반환 데이터 타입
+        success: function(productList) { // 요청 성공 시 콜백 함수
+            console.log('성공');
+            var tbody = $('#productTable tbody'); // tbody 선택
+            tbody.empty(); // tbody 초기화
+
+            // productList를 순회하며 각 상품 정보를 테이블에 추가
+            productList.forEach(function(product) {
+                var row = '<tr>' +
+                    '<td><img src="/images/' + product.product_image + '"></td>' +
+                    '<td><a href="product/' + product.product_name + '">' + product.product_name + '</a></td>'+
+                    '<td>' + product.product_price + '</td>' +
+                    '</tr>';
+                tbody.append(row);
+            });
+        },
+        error: function() { // 요청 실패 시 콜백 함수
+            console.log('실패');
+        }
+    });
+}
+
+
+
+    
+  	function logout() {
    			 var form = document.createElement('form');
     			form.action = 'logout';
     			form.method = 'POST';
@@ -102,6 +134,8 @@
     			document.body.appendChild(form);
     		form.submit();
   }
+  		  
+
 </script>
 </body>
 </html>

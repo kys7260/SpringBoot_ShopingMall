@@ -13,6 +13,7 @@ public interface ProductMapper {
 	@Select("select * from product")
 	public List<product> ShowAllProduct();
 	
-	@Select("select * from product where product_name=#{product_name}")
+	@Select("select * from product  where product_name=#{product_name}")
+	
 	public product ShowProduct(String product_name);
 }

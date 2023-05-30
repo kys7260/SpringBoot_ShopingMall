@@ -1,6 +1,9 @@
 package com.project.demo.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Mapper;
+
 
 import com.project.demo.domain.customer;
 
@@ -15,4 +18,6 @@ public interface CustomerMapper {
 	public void deleteCustomer(String id);
 	
 	public void updateCustomer(customer ct);
+	
+
 }

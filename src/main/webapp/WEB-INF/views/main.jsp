@@ -1,3 +1,5 @@
+<%@page import="java.nio.charset.StandardCharsets"%>
+<%@page import="java.net.URLEncoder"%>
 <%@page import="java.util.List"%>
 <%@page import="com.project.demo.domain.product"%>
 <%@ page language="java" contentType="text/html; charset=UTF-8" pageEncoding="UTF-8"%>
@@ -51,6 +53,10 @@
         th {
             background-color: #f2f2f2;
         }
+          .product-image {
+    		max-width: 200px;
+    		max-height: 200px;
+ 		 }
     </style>
     
 <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
@@ -69,61 +75,40 @@
        <% if(loginId == null) { %>
             <a href="login">로그인</a>
             <a href="new">회원가입</a>
+            <a href="paycart">장바구니</a>
         <% } else { %>
-               <a href="mypage">마이페이지</a>
+              <a href="mypage">마이페이지</a>
             <a href="javascript:void(0);" onclick="logout()">로그아웃</a>
+            <a href="paycart">장바구니</a>
 <% } %>
         </nav>
     </header>
     
     <main>
-        <table id="productTable">
-            <thead>
+    <table>
+        <thead>
+            <tr>
+                <th>이미지</th>
+                <th>상품명</th>
+                <th>가격</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for (product product : productList) { %>
                 <tr>
-                	<th>이미지</th>
-                    <th>상품명</th>
-                    <th>가격</th>
+                    <td><img  class="product-image" src="resources/images/<%=product.getProduct_image()%>" alt="Product Image"></td>
+                    <td><a href="product/<%=product.getProduct_name() %>"><%=product.getProduct_name()%></a></td>
+                    <td><%=product.getProduct_price() %></td>
                 </tr>
-            </thead>
-            <tbody>
-            </tbody>
-        </table>
-    </main>
+            <% } %>
+        </tbody>
+    </table>
+</main>
     
+      
     
     <script type="text/javascript">
-    $(document).ready(function() {
-        // 페이지가 로드된 후 실행될 코드
-        loadList(); // 함수 호출
-    })
-
-function loadList() {
-    $.ajax({
-        url: "showAllProduct", // 요청 경로
-        type: "get", // 요청 방식 (GET or POST)
-        dataType: "json", // 서버 반환 데이터 타입
-        success: function(productList) { // 요청 성공 시 콜백 함수
-            console.log('성공');
-            var tbody = $('#productTable tbody'); // tbody 선택
-            tbody.empty(); // tbody 초기화
-
-            // productList를 순회하며 각 상품 정보를 테이블에 추가
-            productList.forEach(function(product) {
-                var row = '<tr>' +
-                    '<td><img src="/images/' + product.product_image + '"></td>' +
-                    '<td><a href="product/' + product.product_name + '">' + product.product_name + '</a></td>'+
-                    '<td>' + product.product_price + '</td>' +
-                    '</tr>';
-                tbody.append(row);
-            });
-        },
-        error: function() { // 요청 실패 시 콜백 함수
-            console.log('실패');
-        }
-    });
-}
-
-
+  
 
     
   	function logout() {

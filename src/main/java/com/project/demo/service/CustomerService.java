@@ -1,9 +1,13 @@
 package com.project.demo.service;
 
+import java.util.Arrays;
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 
 import com.project.demo.domain.customer;
 import com.project.demo.mapper.CustomerMapper;
@@ -51,4 +55,5 @@ public class CustomerService {
 	public void deleteCustomer(String id) {
 		mapper.deleteCustomer(id);
 	}
+
 }

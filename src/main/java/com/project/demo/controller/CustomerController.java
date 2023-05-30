@@ -1,5 +1,7 @@
 package com.project.demo.controller;
 
+import java.util.List;
+
 import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpSession;
 
@@ -18,10 +20,10 @@ public class CustomerController {
 	CustomerService service;
 	
 	
-	@GetMapping(value="/")
-	public String main() {
-		return "main";
-	}
+	//@GetMapping(value="/")
+	//public String main() {
+	//	return "main";
+	//}
 	
 	//로그인 창
 	@GetMapping(value="/login")
@@ -97,5 +99,5 @@ public class CustomerController {
 	   session.removeAttribute("loginId");
 	   return "redirect:/";
    }
-  
+
 }
